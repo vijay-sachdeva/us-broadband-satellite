@@ -1,0 +1,7 @@
+year,global_subs_m,us_subs_m,dl_mbps,ul_mbps,source
+2021,0.1,,,,SpaceX
+2022,1.0,,,,SpaceX
+2023,2.3,,105,13,SpaceX/Ookla
+2024,4.6,1.3,110,14,SpaceX/Ookla
+2025,7.0,2.0,120,17,SpaceX/Ookla
+2026,10.0,2.6,134,19.3,Feb 2026; target 25M EOY

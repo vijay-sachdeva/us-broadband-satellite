@@ -1,0 +1,5 @@
+tech,locations_pct,dollars_pct,source
+Fiber,56,86,NTIA BEAD final proposals 2026
+Fixed wireless,16,8,NTIA BEAD
+Satellite (LEO),23,4,NTIA BEAD; Starlink 476k locations / $738.8M
+Other,5,2,NTIA BEAD

@@ -1,0 +1,250 @@
+{
+  "lastUpdated": "2026-06-19T07:04:35.263965+00:00",
+  "tier": "primary",
+  "source": "ACS 5-yr B28002 (~2023 seed snapshot) - set CENSUS_API_KEY to refresh live",
+  "seed": true,
+  "states": {
+    "01": {
+      "name": "Alabama",
+      "broadband_pct": 84.6
+    },
+    "02": {
+      "name": "Alaska",
+      "broadband_pct": 88.4
+    },
+    "04": {
+      "name": "Arizona",
+      "broadband_pct": 88.5
+    },
+    "05": {
+      "name": "Arkansas",
+      "broadband_pct": 82.5
+    },
+    "06": {
+      "name": "California",
+      "broadband_pct": 90.6
+    },
+    "08": {
+      "name": "Colorado",
+      "broadband_pct": 91.3
+    },
+    "09": {
+      "name": "Connecticut",
+      "broadband_pct": 90.5
+    },
+    "10": {
+      "name": "Delaware",
+      "broadband_pct": 90.0
+    },
+    "11": {
+      "name": "District of Columbia",
+      "broadband_pct": 90.3
+    },
+    "12": {
+      "name": "Florida",
+      "broadband_pct": 89.1
+    },
+    "13": {
+      "name": "Georgia",
+      "broadband_pct": 87.5
+    },
+    "15": {
+      "name": "Hawaii",
+      "broadband_pct": 90.2
+    },
+    "16": {
+      "name": "Idaho",
+      "broadband_pct": 87.7
+    },
+    "17": {
+      "name": "Illinois",
+      "broadband_pct": 88.6
+    },
+    "18": {
+      "name": "Indiana",
+      "broadband_pct": 86.4
+    },
+    "19": {
+      "name": "Iowa",
+      "broadband_pct": 86.5
+    },
+    "20": {
+      "name": "Kansas",
+      "broadband_pct": 87.1
+    },
+    "21": {
+      "name": "Kentucky",
+      "broadband_pct": 84.3
+    },
+    "22": {
+      "name": "Louisiana",
+      "broadband_pct": 83.6
+    },
+    "23": {
+      "name": "Maine",
+      "broadband_pct": 87.2
+    },
+    "24": {
+      "name": "Maryland",
+      "broadband_pct": 91.4
+    },
+    "25": {
+      "name": "Massachusetts",
+      "broadband_pct": 90.9
+    },
+    "26": {
+      "name": "Michigan",
+      "broadband_pct": 87.2
+    },
+    "27": {
+      "name": "Minnesota",
+      "broadband_pct": 89.6
+    },
+    "28": {
+      "name": "Mississippi",
+      "broadband_pct": 80.9
+    },
+    "29": {
+      "name": "Missouri",
+      "broadband_pct": 86.0
+    },
+    "30": {
+      "name": "Montana",
+      "broadband_pct": 86.0
+    },
+    "31": {
+      "name": "Nebraska",
+      "broadband_pct": 87.4
+    },
+    "32": {
+      "name": "Nevada",
+      "broadband_pct": 89.6
+    },
+    "33": {
+      "name": "New Hampshire",
+      "broadband_pct": 91.6
+    },
+    "34": {
+      "name": "New Jersey",
+      "broadband_pct": 91.5
+    },
+    "35": {
+      "name": "New Mexico",
+      "broadband_pct": 83.9
+    },
+    "36": {
+      "name": "New York",
+      "broadband_pct": 89.3
+    },
+    "37": {
+      "name": "North Carolina",
+      "broadband_pct": 87.0
+    },
+    "38": {
+      "name": "North Dakota",
+      "broadband_pct": 86.9
+    },
+    "39": {
+      "name": "Ohio",
+      "broadband_pct": 86.9
+    },
+    "40": {
+      "name": "Oklahoma",
+      "broadband_pct": 84.4
+    },
+    "41": {
+      "name": "Oregon",
+      "broadband_pct": 90.3
+    },
+    "42": {
+      "name": "Pennsylvania",
+      "broadband_pct": 88.0
+    },
+    "44": {
+      "name": "Rhode Island",
+      "broadband_pct": 89.3
+    },
+    "45": {
+      "name": "South Carolina",
+      "broadband_pct": 86.0
+    },
+    "46": {
+      "name": "South Dakota",
+      "broadband_pct": 86.0
+    },
+    "47": {
+      "name": "Tennessee",
+      "broadband_pct": 85.8
+    },
+    "48": {
+      "name": "Texas",
+      "broadband_pct": 88.1
+    },
+    "49": {
+      "name": "Utah",
+      "broadband_pct": 92.5
+    },
+    "50": {
+      "name": "Vermont",
+      "broadband_pct": 87.5
+    },
+    "51": {
+      "name": "Virginia",
+      "broadband_pct": 90.0
+    },
+    "53": {
+      "name": "Washington",
+      "broadband_pct": 92.0
+    },
+    "54": {
+      "name": "West Virginia",
+      "broadband_pct": 81.9
+    },
+    "55": {
+      "name": "Wisconsin",
+      "broadband_pct": 87.1
+    },
+    "56": {
+      "name": "Wyoming",
+      "broadband_pct": 86.6
+    }
+  },
+  "national_trend": [
+    {
+      "year": 2015,
+      "broadband_pct": 77.0
+    },
+    {
+      "year": 2016,
+      "broadband_pct": 78.3
+    },
+    {
+      "year": 2017,
+      "broadband_pct": 80.1
+    },
+    {
+      "year": 2018,
+      "broadband_pct": 81.5
+    },
+    {
+      "year": 2019,
+      "broadband_pct": 82.7
+    },
+    {
+      "year": 2020,
+      "broadband_pct": 85.2
+    },
+    {
+      "year": 2021,
+      "broadband_pct": 87.0
+    },
+    {
+      "year": 2022,
+      "broadband_pct": 88.0
+    },
+    {
+      "year": 2023,
+      "broadband_pct": 88.6
+    }
+  ]
+}

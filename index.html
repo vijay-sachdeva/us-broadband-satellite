@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>US Broadband &middot; Where fiber stops, satellite is the floor</title>
+<meta name="description" content="Satellite isn't competing with fiber — it's the floor under the rural tail fiber can't afford to reach. A public-data connectivity explorer.">
+<script>
+  // set theme before paint to avoid FOUC
+  (function () {
+    try {
+      var t = localStorage.getItem('ubb-theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+<style>
+  :root {
+    --green:#1D9E75; --red:#E24B4A; --blue:#58a6ff; --gold:#e3b341; --slate:#8b97a3;
+  }
+  [data-theme="dark"] {
+    --bg:#0c1116; --bg2:#11181f; --card:#141d26; --card2:#0f1620;
+    --line:#243140; --line2:#1a2530; --ink:#e9edf2; --ink2:#aab4bf; --ink3:#6b7785;
+    --hero-glow:radial-gradient(1200px 500px at 80% -10%, rgba(29,158,117,.18), transparent 60%),
+                radial-gradient(900px 400px at 10% 0%, rgba(88,166,255,.12), transparent 55%);
+  }
+  [data-theme="light"] {
+    --bg:#f5f7f9; --bg2:#eef1f4; --card:#ffffff; --card2:#f7f9fb;
+    --line:#dde3ea; --line2:#e8edf2; --ink:#16202b; --ink2:#43525f; --ink3:#7a8694;
+    --hero-glow:radial-gradient(1200px 500px at 80% -10%, rgba(29,158,117,.12), transparent 60%),
+                radial-gradient(900px 400px at 10% 0%, rgba(88,166,255,.10), transparent 55%);
+  }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  body {
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.5;
+  }
+  a { color:var(--blue); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+
+  header.top {
+    position:sticky; top:0; z-index:50; backdrop-filter:blur(10px);
+    background:color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom:1px solid var(--line); padding:10px 22px;
+    display:flex; align-items:center; gap:16px;
+  }
+  .brand { font-weight:700; letter-spacing:.2px; font-size:15px; display:flex; align-items:center; gap:9px; }
+  .brand .dot { width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 12px var(--green); }
+  .top .spacer { flex:1; }
+  .top .upd { font-size:11.5px; color:var(--ink3); }
+  .tbtn {
+    background:var(--card); border:1px solid var(--line); color:var(--ink2);
+    border-radius:8px; padding:6px 11px; font-size:12px; cursor:pointer;
+  }
+  .tbtn:hover { color:var(--ink); border-color:var(--slate); }
+
+  .wrap { max-width:1180px; margin:0 auto; padding:0 22px 70px; }
+
+  /* HERO */
+  .hero { position:relative; padding:54px 0 26px; }
+  .hero::before { content:""; position:absolute; inset:-40px -200px auto -200px; height:560px;
+    background:var(--hero-glow); pointer-events:none; z-index:0; }
+  .hero > * { position:relative; z-index:1; }
+  .kicker { color:var(--green); font-weight:700; font-size:12.5px; letter-spacing:1.4px; text-transform:uppercase; }
+  h1 { font-size:clamp(30px,5vw,52px); line-height:1.05; margin:12px 0 14px; letter-spacing:-.5px; max-width:18ch; }
+  h1 .accent { color:var(--green); }
+  .lede { font-size:clamp(15px,2vw,18px); color:var(--ink2); max-width:62ch; margin:0 0 26px; }
+
+  .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:8px 0 6px; }
+  .kpi { background:linear-gradient(180deg,var(--card),var(--card2)); border:1px solid var(--line);
+    border-radius:14px; padding:16px 16px 14px; position:relative; overflow:hidden; }
+  .kpi .big { font-size:30px; font-weight:800; letter-spacing:-.5px; }
+  .kpi .lab { font-size:12px; color:var(--ink2); margin-top:3px; }
+  .kpi .sub { font-size:11px; color:var(--ink3); margin-top:6px; }
+  .kpi.g .big { color:var(--green); } .kpi.r .big { color:var(--red); }
+  .kpi.b .big { color:var(--blue); } .kpi.y .big { color:var(--gold); }
+
+  /* HERO chart card */
+  .hero-card { margin-top:26px; background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--line); border-radius:18px; padding:22px 24px 18px; }
+  .hero-card h2 { margin:0 0 2px; font-size:19px; }
+  .hero-card .sub { color:var(--ink2); font-size:13.5px; margin:0 0 14px; }
+
+  /* GRID */
+  .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:30px; }
+  .card { background:linear-gradient(180deg,var(--card),var(--card2)); border:1px solid var(--line);
+    border-radius:16px; padding:18px 20px 16px; display:flex; flex-direction:column; min-width:0; }
+  .card.wide { grid-column:1 / -1; }
+  .card h3 { margin:0 0 3px; font-size:16px; display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
+  .card .desc { color:var(--ink2); font-size:13px; margin:0 0 14px; }
+  .chart-box { position:relative; height:300px; }
+  .chart-box.tall { height:340px; }
+  .note { color:var(--ink3); font-size:11.5px; margin:12px 0 0; }
+  .src { margin-top:10px; font-size:11.5px; color:var(--ink3); }
+  .src a { color:var(--ink2); }
+
+  /* tier badge */
+  .badge { font-size:10px; font-weight:700; letter-spacing:.5px; text-transform:uppercase;
+    padding:3px 8px; border-radius:999px; border:1px solid var(--line); color:var(--ink2); }
+  .badge.primary { color:var(--green); border-color:color-mix(in srgb,var(--green) 45%,var(--line)); background:color-mix(in srgb,var(--green) 10%,transparent); }
+  .badge.analyst { color:var(--blue); border-color:color-mix(in srgb,var(--blue) 45%,var(--line)); background:color-mix(in srgb,var(--blue) 10%,transparent); }
+  .badge.modeled { color:var(--gold); border-color:color-mix(in srgb,var(--gold) 45%,var(--line)); background:color-mix(in srgb,var(--gold) 12%,transparent); }
+
+  /* map */
+  #map-svg { width:100%; height:auto; display:block; }
+  #map-svg path { stroke:var(--bg); stroke-width:.5; cursor:pointer; transition:opacity .12s; }
+  #map-svg path:hover { opacity:.78; }
+  .map-tip { position:fixed; pointer-events:none; z-index:99; background:var(--card); border:1px solid var(--slate);
+    border-radius:8px; padding:8px 11px; font-size:12.5px; color:var(--ink); box-shadow:0 6px 24px rgba(0,0,0,.35);
+    opacity:0; transition:opacity .1s; max-width:230px; }
+  .legend { display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--ink2); margin-top:12px; flex-wrap:wrap; }
+  .legend .bar { height:10px; width:160px; border-radius:3px;
+    background:linear-gradient(90deg,#173f31,#1D9E75,#e3b341,#E24B4A); }
+
+  /* caveats */
+  .caveats { margin-top:30px; background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--line); border-radius:16px; padding:22px 24px; }
+  .caveats h3 { margin:0 0 4px; font-size:17px; }
+  .caveats .desc { color:var(--ink2); font-size:13px; margin:0 0 16px; }
+  .cav-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+  .cav { border:1px solid var(--line); border-left:3px solid var(--gold); border-radius:10px; padding:12px 14px; background:var(--card2); }
+  .cav .t { font-weight:700; font-size:13.5px; margin-bottom:4px; }
+  .cav .b { font-size:12.5px; color:var(--ink2); }
+
+  footer { margin-top:40px; padding-top:22px; border-top:1px solid var(--line); color:var(--ink3); font-size:12px; }
+  footer .links { display:flex; flex-wrap:wrap; gap:14px; margin-top:8px; }
+
+  @media (max-width:780px) {
+    .kpis { grid-template-columns:repeat(2,1fr); }
+    .grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="dot"></span> US Broadband <span style="color:var(--ink3);font-weight:500">&middot; satellite layer</span></div>
+  <div class="spacer"></div>
+  <div class="upd" id="lastUpdated">loading data&hellip;</div>
+  <button class="tbtn" id="themeBtn" onclick="toggleTheme()">Light</button>
+</header>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="kicker">Connectivity &middot; the rural tail</div>
+    <h1>Where fiber stops being worth it, <span class="accent">satellite is the floor</span>.</h1>
+    <p class="lede">Satellite isn't competing with fiber — it's the floor under the part of the map fiber can't afford to reach. Fiber's cost-per-location explodes as density falls and crosses above Starlink's flat &asymp;$600 + $120/mo somewhere in the rural tail. That tail — the FCC's ~4% unserved, almost all rural — is structurally Starlink's.</p>
+
+    <div class="kpis">
+      <div class="kpi g"><div class="big">476k</div><div class="lab">locations Starlink won under BEAD</div><div class="sub">more than any single provider</div></div>
+      <div class="kpi r"><div class="big">~4%</div><div class="lab">of BEAD dollars to satellite</div><div class="sub">fiber kept ~86%</div></div>
+      <div class="kpi y"><div class="big">19.3</div><div class="lab">Mbps Starlink upload (Feb 2026)</div><div class="sub">sits just under the 20 bar</div></div>
+      <div class="kpi b"><div class="big">~4%</div><div class="lab">of US locations still unserved</div><div class="sub">almost all rural</div></div>
+    </div>
+
+    <!-- A. Cost-per-location crossover (hero) -->
+    <div class="hero-card">
+      <h2>Where fiber stops being worth it <span class="badge modeled">Modeled</span></h2>
+      <p class="sub">Fiber cost-per-location explodes with rurality; satellite stays flat near $600. The rural unserved tail is satellite's domain.</p>
+      <svg viewBox="0 0 720 360" width="100%" role="img" aria-label="Fiber cost per location rises sharply with rurality while satellite stays flat near $600">
+        <!-- axes -->
+        <line x1="70" y1="300" x2="690" y2="300" stroke="var(--line)"/>
+        <line x1="70" y1="40" x2="70" y2="300" stroke="var(--line)"/>
+        <text x="62" y="304" font-size="10" fill="var(--ink3)" text-anchor="end">$0</text>
+        <text x="62" y="227" font-size="10" fill="var(--ink3)" text-anchor="end">$10k</text>
+        <text x="62" y="151" font-size="10" fill="var(--ink3)" text-anchor="end">$20k</text>
+        <text x="62" y="74"  font-size="10" fill="var(--ink3)" text-anchor="end">$30k</text>
+        <!-- BEAD threshold -->
+        <line x1="70" y1="223.5" x2="690" y2="223.5" stroke="var(--ink3)" stroke-dasharray="3 4" stroke-opacity=".7"/>
+        <text x="76" y="219" font-size="10.5" fill="var(--ink2)">BEAD &ldquo;extremely high cost&rdquo; threshold &asymp; $10k</text>
+        <!-- satellite domain shade -->
+        <polygon points="70,294.7 157,286.2 244,269.4 331,242.7 419,208.2 506,162.4 593,108.8 690,52 690,294.7"
+                 fill="var(--green)" fill-opacity=".10"/>
+        <!-- satellite flat line -->
+        <line id="sat-line" x1="70" y1="294.7" x2="690" y2="294.7" stroke="var(--green)" stroke-width="3"/>
+        <!-- fiber curve -->
+        <path id="fiber-line" d="M70 294.7 L157 286.2 L244 269.4 L331 242.7 L419 208.2 L506 162.4 L593 108.8 L690 52"
+              fill="none" stroke="var(--red)" stroke-width="3" stroke-linecap="round"/>
+        <text x="556" y="64"  font-size="12.5" font-weight="600" fill="var(--red)">fiber $/location</text>
+        <text x="300" y="288" font-size="12.5" font-weight="600" fill="var(--green)">satellite &asymp; $600, flat</text>
+        <text x="300" y="150" font-size="11.5" fill="var(--green)" opacity=".9">satellite's domain: the rural unserved tail</text>
+        <!-- x labels -->
+        <text x="70"  y="320" font-size="11" fill="var(--ink3)">urban</text>
+        <text x="380" y="320" font-size="11" fill="var(--ink3)" text-anchor="middle">rural</text>
+        <text x="690" y="320" font-size="11" fill="var(--ink3)" text-anchor="end">remote</text>
+      </svg>
+      <p class="note">Illustrative; shape grounded in BEAD per-location costs. Fiber still won ~86% of BEAD dollars on long-term value.</p>
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <div class="grid">
+
+    <!-- B. Map -->
+    <div class="card wide">
+      <h3>The broadband gap, by state <span class="badge primary">Primary</span></h3>
+      <p class="desc">Share of households <em>without</em> a broadband subscription (ACS B28002). Satellite is offered nationwide — it's the only fixed option across most of the deep-red, low-density counties.</p>
+      <svg id="map-svg" viewBox="0 0 975 610" role="img" aria-label="US map shaded by share of households without broadband"></svg>
+      <div class="legend"><span>fewer unserved</span><span class="bar"></span><span>more unserved</span><span style="margin-left:auto" id="map-note">Starlink offered: nationwide</span></div>
+      <div class="src" id="src-map"></div>
+    </div>
+
+    <!-- C. BEAD split -->
+    <div class="card">
+      <h3>Won the locations, lost the dollars <span class="badge primary">Primary</span></h3>
+      <p class="desc">Starlink won the most BEAD <em>locations</em> of any provider — but satellite took only ~4% of the <em>dollars</em>. Fiber kept the money.</p>
+      <div class="chart-box"><canvas id="chart-bead"></canvas></div>
+      <div class="src">NTIA BEAD final proposals 2026</div>
+    </div>
+
+    <!-- D. Starlink growth -->
+    <div class="card">
+      <h3>Starlink subscriber growth <span class="badge analyst">Analyst</span></h3>
+      <p class="desc">The adoption curve toward a stated 25M-by-end-2026 target. Capacity — not coverage — is the binding risk as subs scale.</p>
+      <div class="chart-box"><canvas id="chart-starlink"></canvas></div>
+      <div class="src">SpaceX disclosures + analyst estimates</div>
+    </div>
+
+    <!-- E. Performance -->
+    <div class="card">
+      <h3>Performance vs the bar <span class="badge analyst">Analyst</span></h3>
+      <p class="desc">Download clears 100 comfortably; <strong>upload (19.3) sits just under the 20 line</strong> — the honest caveat, drawn not asserted.</p>
+      <div class="chart-box"><canvas id="chart-perf"></canvas></div>
+      <div class="src">Ookla Starlink reports</div>
+    </div>
+
+    <!-- F. Tail share -->
+    <div class="card">
+      <h3>Who serves the shrinking tail <span class="badge modeled">Modeled</span></h3>
+      <p class="desc">As fiber and fixed-wireless build out, satellite's share of the <em>remaining</em> unserved gap rises — it absorbs the locations no one else reaches.</p>
+      <div class="chart-box"><canvas id="chart-tail"></canvas></div>
+      <div class="src">Modeled on BDC vintages + BEAD tech split</div>
+    </div>
+
+    <!-- Adoption trend -->
+    <div class="card wide">
+      <h3>National broadband adoption <span class="badge primary">Primary</span></h3>
+      <p class="desc">Share of US households subscribing to broadband of any type, 2015&rarr;latest (ACS 5-yr B28002). Adoption &ne; availability — and neither equals affordability.</p>
+      <div class="chart-box"><canvas id="chart-adopt"></canvas></div>
+      <div class="src" id="src-adopt"></div>
+    </div>
+
+  </div>
+
+  <!-- CAVEATS -->
+  <section class="caveats">
+    <h3>Honest caveats &mdash; what keeps this defensible</h3>
+    <p class="desc">The line holds only with these stated next to it.</p>
+    <div class="cav-grid">
+      <div class="cav"><div class="t">Capacity is the binding risk</div><div class="b">Flat cost assumes the network absorbs load; as subs head toward 25M, congestion (not coverage) is the threat until V3 satellites scale.</div></div>
+      <div class="cav"><div class="t">Upload just clears nothing</div><div class="b">19.3 Mbps &lt; 20; many locations sit right at the BEAD bar.</div></div>
+      <div class="cav"><div class="t">Coverage &ne; affordability</div><div class="b">$120/mo vs fiber $50&ndash;100; satellite fixes reach, not the adoption gap.</div></div>
+      <div class="cav"><div class="t">Dollars went to fiber</div><div class="b">Satellite won the most <em>locations</em> but ~4% of BEAD <em>dollars</em>; this is not a fiber-replacement story.</div></div>
+      <div class="cav"><div class="t">Availability is self-reported</div><div class="b">BDC comes from providers; verify against Ookla measured speeds.</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div>US Broadband &mdash; a public-data connectivity explorer. No build step; data refreshed from free public feeds. Not investment advice.</div>
+    <div class="links">
+      <a href="https://broadbandmap.fcc.gov/data-download" target="_blank" rel="noopener">FCC National Broadband Map / BDC</a>
+      <a href="https://www.census.gov/data/developers/data-sets/acs-5year.html" target="_blank" rel="noopener">Census ACS (B28002)</a>
+      <a href="https://github.com/teamookla/ookla-open-data" target="_blank" rel="noopener">Ookla Open Data</a>
+      <a href="https://www.ntia.gov/funding-programs/internet-all/broadband-equity-access-and-deployment-bead-program/progress-dashboard" target="_blank" rel="noopener">NTIA BEAD dashboard</a>
+      <a href="https://www.fcc.gov/auction/904" target="_blank" rel="noopener">FCC RDOF</a>
+    </div>
+  </footer>
+
+</div>
+
+<div class="map-tip" id="map-tip"></div>
+
+<!-- CDN deps -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+
+<script>
+// ---- DATA (hydrated from data/*.json; each chart falls back to a seed) ----
+const DATA = {};
+
+// seeds (used when a feed is missing)
+const SEED = {
+  bead: { rows: [
+    {tech:'Fiber',loc:56,dol:86},{tech:'Fixed wireless',loc:16,dol:8},
+    {tech:'Satellite (LEO)',loc:23,dol:4},{tech:'Other',loc:5,dol:2}] },
+  satellite: {
+    series:[{year:2021,g:0.1},{year:2022,g:1.0},{year:2023,g:2.3},{year:2024,g:4.6},{year:2025,g:7.0},{year:2026,g:10.0}],
+    perf:[{t:'2023',dl:105,ul:13},{t:'2024',dl:110,ul:14},{t:'2025',dl:120,ul:17},{t:'2026',dl:134,ul:19.3}],
+    target_subs_m:25
+  }
+};
+const COL = {'Fiber':'#1D9E75','Fixed wireless':'#58a6ff','Satellite (LEO)':'#e3b341','Other':'#8b97a3'};
+const TAIL = [ // modeled share of the remaining unserved gap, by year
+  {year:2022,fiber:30,fwa:22,sat:18,none:30},
+  {year:2024,fiber:38,fwa:24,sat:26,none:12},
+  {year:2026,fiber:46,fwa:23,sat:29,none:2}
+];
+
+const _charts = {};
+function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+function chartColors(){
+  return { ink:css('--ink'), ink2:css('--ink2'), grid:css('--line'), };
+}
+
+function buildBead(){
+  const d = DATA.bead || SEED.bead;
+  const cc = chartColors();
+  _charts.bead = new Chart(document.getElementById('chart-bead'), {
+    type:'bar',
+    data:{ labels:['Locations won','Dollars won'],
+      datasets:d.rows.map(r=>({label:r.tech,data:[r.loc,r.dol],backgroundColor:COL[r.tech],stack:'s',borderRadius:3})) },
+    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{position:'bottom',labels:{color:cc.ink2,boxWidth:12,padding:12}},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.x+'%'}} },
+      scales:{ x:{stacked:true,max:100,ticks:{color:cc.ink2,callback:v=>v+'%'},grid:{color:cc.grid}},
+        y:{stacked:true,ticks:{color:cc.ink},grid:{display:false}} } }
+  });
+}
+
+function buildStarlink(){
+  const s = (DATA.satellite&&DATA.satellite.series) || SEED.satellite.series;
+  const target = (DATA.satellite&&DATA.satellite.target_subs_m) || SEED.satellite.target_subs_m;
+  const cc = chartColors();
+  _charts.starlink = new Chart(document.getElementById('chart-starlink'), {
+    type:'line',
+    data:{ labels:s.map(x=>x.year),
+      datasets:[
+        {label:'Global subscribers (M)',data:s.map(x=>x.g),borderColor:'#58a6ff',
+         backgroundColor:'rgba(88,166,255,.14)',fill:true,tension:.3,pointRadius:3,borderWidth:2.5},
+        {label:'Target ('+target+'M)',data:s.map(()=>target),borderColor:'#e3b341',
+         borderDash:[5,4],pointRadius:0,fill:false,borderWidth:1.5}
+      ] },
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{position:'bottom',labels:{color:cc.ink2,boxWidth:12,padding:12}},
+        tooltip:{callbacks:{label:c=>c.dataset.label.startsWith('Target')?'target '+target+'M':c.parsed.y+'M subscribers'}} },
+      scales:{ y:{title:{display:true,text:'millions',color:cc.ink2},ticks:{color:cc.ink2},grid:{color:cc.grid}},
+        x:{ticks:{color:cc.ink2},grid:{display:false}} } }
+  });
+}
+
+function buildPerf(){
+  const p = (DATA.satellite&&DATA.satellite.perf) || SEED.satellite.perf;
+  const cc = chartColors();
+  _charts.perf = new Chart(document.getElementById('chart-perf'), {
+    type:'line',
+    data:{ labels:p.map(x=>x.t),
+      datasets:[
+        {label:'Download',data:p.map(x=>x.dl),borderColor:'#58a6ff',backgroundColor:'rgba(88,166,255,.10)',fill:true,tension:.3,pointRadius:3,borderWidth:2.5},
+        {label:'Upload',data:p.map(x=>x.ul),borderColor:'#e3b341',tension:.3,pointRadius:3,borderWidth:2.5},
+        {label:'100 Mbps (down threshold)',data:p.map(()=>100),borderColor:'#E24B4A',borderDash:[5,4],pointRadius:0,borderWidth:1.5},
+        {label:'20 Mbps (up threshold)',data:p.map(()=>20),borderColor:'#E24B4A',borderDash:[2,4],pointRadius:0,borderWidth:1.5}
+      ] },
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{position:'bottom',labels:{color:cc.ink2,boxWidth:12,padding:10,font:{size:10}}} },
+      scales:{ y:{title:{display:true,text:'Mbps',color:cc.ink2},ticks:{color:cc.ink2},grid:{color:cc.grid}},
+        x:{ticks:{color:cc.ink2},grid:{display:false}} } }
+  });
+}
+
+function buildTail(){
+  const cc = chartColors();
+  const yrs = TAIL.map(x=>x.year);
+  const mk = (key,c,lab)=>({label:lab,data:TAIL.map(x=>x[key]),backgroundColor:c,borderColor:c,fill:true,tension:.25,pointRadius:0,borderWidth:1.5});
+  _charts.tail = new Chart(document.getElementById('chart-tail'), {
+    type:'line',
+    data:{ labels:yrs, datasets:[
+      mk('fiber','rgba(29,158,117,.55)','Fiber'),
+      mk('fwa','rgba(88,166,255,.55)','Fixed wireless'),
+      mk('sat','rgba(227,179,65,.6)','Satellite (LEO)'),
+      mk('none','rgba(139,151,163,.4)','Still unserved')
+    ] },
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{position:'bottom',labels:{color:cc.ink2,boxWidth:12,padding:10,font:{size:10}}},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y+'%'}} },
+      scales:{ y:{stacked:true,max:100,title:{display:true,text:'% of remaining gap',color:cc.ink2},ticks:{color:cc.ink2,callback:v=>v+'%'},grid:{color:cc.grid}},
+        x:{ticks:{color:cc.ink2},grid:{display:false}} } }
+  });
+}
+
+function buildAdopt(){
+  const t = (DATA.broadband&&DATA.broadband.national_trend) || [];
+  const el = document.getElementById('chart-adopt');
+  if(!t.length){ return; }
+  const cc = chartColors();
+  _charts.adopt = new Chart(el, {
+    type:'line',
+    data:{ labels:t.map(x=>x.year),
+      datasets:[{label:'Households with broadband (%)',data:t.map(x=>x.broadband_pct),
+        borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.14)',fill:true,tension:.3,pointRadius:3,borderWidth:2.5}] },
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>c.parsed.y+'% of households'}} },
+      scales:{ y:{ticks:{color:cc.ink2,callback:v=>v+'%'},grid:{color:cc.grid},suggestedMin:70,suggestedMax:95},
+        x:{ticks:{color:cc.ink2},grid:{display:false}} } }
+  });
+  document.getElementById('src-adopt').innerHTML = 'Source: ' + (DATA.broadband.source||'ACS B28002');
+}
+
+function buildAllCharts(){
+  Object.values(_charts).forEach(c=>{ try{c.destroy();}catch(e){} });
+  buildBead(); buildStarlink(); buildPerf(); buildTail(); buildAdopt();
+}
+
+// ---- MAP (D3 + us-atlas states) ----
+let _mapDrawn = false;
+async function buildMap(){
+  if(_mapDrawn) return;
+  const svg = d3.select('#map-svg');
+  const states = (DATA.broadband&&DATA.broadband.states) || {};
+  let us;
+  try {
+    us = await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
+  } catch(e){ console.warn('map load failed', e); return; }
+  _mapDrawn = true;
+  const geo = topojson.feature(us, us.objects.states).features;
+  const path = d3.geoPath();
+  // gap = 100 - broadband_pct
+  const vals = Object.values(states).map(s=>100 - s.broadband_pct);
+  const ext = d3.extent(vals.length?vals:[5,20]);
+  const color = d3.scaleSequential(d3.interpolateRgbBasis(['#173f31','#1D9E75','#e3b341','#E24B4A']))
+    .domain([ext[0], ext[1]]);
+  const tip = document.getElementById('map-tip');
+  svg.selectAll('path').data(geo).join('path')
+    .attr('d', path)
+    .attr('fill', d=>{ const s = states[String(d.id).padStart(2,'0')]; return s? color(100-s.broadband_pct) : 'var(--line)'; })
+    .on('mousemove', (ev,d)=>{
+      const s = states[String(d.id).padStart(2,'0')];
+      if(!s){ tip.style.opacity=0; return; }
+      const gap = (100 - s.broadband_pct).toFixed(1);
+      tip.innerHTML = '<strong>'+s.name+'</strong><br>without broadband: '+gap+'%<br>Starlink offered: <span style="color:var(--green)">yes</span>';
+      tip.style.opacity=1; tip.style.left=(ev.clientX+14)+'px'; tip.style.top=(ev.clientY+14)+'px';
+    })
+    .on('mouseleave', ()=>{ tip.style.opacity=0; });
+  const note = DATA.broadband ? ('Source: '+(DATA.broadband.source||'ACS B28002')) : '';
+  document.getElementById('src-map').innerHTML = note;
+}
+
+// ---- hydrate ----
+async function hydrate(){
+  const feeds = ['broadband','bead','satellite'];
+  await Promise.all(feeds.map(async f=>{
+    try { const r = await fetch('data/'+f+'.json',{cache:'no-store'}); if(r.ok) DATA[f]=await r.json(); }
+    catch(e){ console.warn('feed missing:', f, e); }
+  }));
+  const lu = (DATA.broadband&&DATA.broadband.lastUpdated) || (DATA.bead&&DATA.bead.lastUpdated);
+  document.getElementById('lastUpdated').textContent = lu ? ('Data updated ' + new Date(lu).toLocaleDateString()) : 'Showing seed data';
+  buildAllCharts();
+  buildMap();
+}
+
+// ---- theme ----
+function toggleTheme(){
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur==='dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('ubb-theme', next); } catch(e){}
+  document.getElementById('themeBtn').textContent = next==='dark' ? 'Light' : 'Dark';
+  buildAllCharts(); // recreate so canvas colors match the theme (map uses CSS vars, no redraw needed)
+}
+
+// ---- hero line draw-in animation ----
+function animateHero(){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  ['fiber-line','sat-line'].forEach((id,i)=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    let len;
+    try { len = el.getTotalLength ? el.getTotalLength() : 700; } catch(e){ len = 700; }
+    el.style.strokeDasharray = len; el.style.strokeDashoffset = len;
+    el.style.transition = 'stroke-dashoffset 1.2s ease '+(i*0.15)+'s';
+    requestAnimationFrame(()=>{ el.style.strokeDashoffset = 0; });
+    setTimeout(()=>{ el.style.strokeDashoffset = 0; }, 80); // fallback if rAF throttled
+  });
+}
+
+document.getElementById('themeBtn').textContent =
+  document.documentElement.getAttribute('data-theme')==='dark' ? 'Light' : 'Dark';
+window.addEventListener('load', ()=>{ hydrate(); animateHero(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "lastUpdated": "2026-06-19T07:04:34.975983+00:00",
+  "tier": "primary",
+  "source": "NTIA BEAD; NTIA BEAD final proposals 2026; NTIA BEAD; Starlink 476k locations / $738.8M",
+  "rows": [
+    {
+      "tech": "Fiber",
+      "loc": 56.0,
+      "dol": 86.0
+    },
+    {
+      "tech": "Fixed wireless",
+      "loc": 16.0,
+      "dol": 8.0
+    },
+    {
+      "tech": "Satellite (LEO)",
+      "loc": 23.0,
+      "dol": 4.0
+    },
+    {
+      "tech": "Other",
+      "loc": 5.0,
+      "dol": 2.0
+    }
+  ]
+}
