@@ -415,8 +415,12 @@ async function buildMap(){
     us = await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
   } catch(e){ console.warn('map load failed', e); return; }
   _mapDrawn = true;
-  const geo = topojson.feature(us, us.objects.states).features;
-  const path = d3.geoPath();
+  const fc = topojson.feature(us, us.objects.states);
+  const geo = fc.features;
+  // states-10m may be raw lon/lat or pre-projected; geoAlbersUsa.fitSize handles
+  // lon/lat correctly and is a near-identity for already-projected coords.
+  const projection = d3.geoAlbersUsa().fitSize([975, 610], fc);
+  const path = d3.geoPath(projection);
   // gap = 100 - broadband_pct
   const vals = Object.values(states).map(s=>100 - s.broadband_pct);
   const ext = d3.extent(vals.length?vals:[5,20]);
