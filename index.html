@@ -114,6 +114,15 @@
   .legend .bar { height:10px; width:160px; border-radius:3px;
     background:linear-gradient(90deg,#173f31,#1D9E75,#e3b341,#E24B4A); }
 
+  /* transport layer section */
+  .layer { margin-top:46px; }
+  .layer-rule { display:flex; align-items:center; gap:14px; margin-bottom:22px; color:var(--ink3); font-size:11.5px;
+    letter-spacing:1.4px; text-transform:uppercase; font-weight:700; }
+  .layer-rule::before, .layer-rule::after { content:""; height:1px; background:var(--line); flex:1; }
+  .layer-h { font-size:clamp(22px,3.4vw,34px); line-height:1.12; margin:10px 0 14px; letter-spacing:-.4px; max-width:24ch; }
+  .layer-h em { color:var(--blue); font-style:normal; }
+  .kpis.kpis4 { margin-bottom:24px; }
+
   /* caveats */
   .caveats { margin-top:30px; background:linear-gradient(180deg,var(--card),var(--card2));
     border:1px solid var(--line); border-radius:16px; padding:22px 24px; }
@@ -245,6 +254,94 @@
 
   </div>
 
+  <!-- ================= TRANSPORT LAYER: LONG-HAUL ================= -->
+  <section class="layer">
+    <div class="layer-rule"><span>Layer 2 &middot; transport</span></div>
+    <div class="kicker" style="color:var(--blue)">The backbone underneath</div>
+    <h2 class="layer-h">Where access fiber stops, satellite is the floor. Underneath <em>all</em> of it runs long-haul &mdash; and AI is reviving it.</h2>
+    <p class="lede">The rural tail above is the <strong>access</strong> layer &mdash; the last mile to a home. Long-haul is the other end of the same glass: the intercity <strong>backbone</strong> that carries every bit between cities, data centers and peering hubs. Nothing routes around it. Most of it was laid in the dot-com boom, then sat dark for a decade. Now the AI build-out is the first force in 20 years big enough to fill it &mdash; and to need brand-new routes. <strong>This is the concrete link between the AI economy and infrastructure:</strong> AI barely grows the rural access tail, but it is driving a second long-haul super-cycle, with hyperscalers as the backbone's new buyers.</p>
+
+    <div class="kpis kpis4">
+      <div class="kpi b"><div class="big">~$13B</div><div class="lab">AI long-haul deals announced 2024&ndash;26</div><div class="sub">Lumen ~$8.5B + Zayo ~$4B <span class="badge modeled" style="padding:1px 5px">Modeled agg.</span></div></div>
+      <div class="kpi r"><div class="big">~90%</div><div class="lab">of dot-com fiber went dark</div><div class="sub">~80&ndash;90M fiber-mi, ~$1T capex, 1996&ndash;2001</div></div>
+      <div class="kpi g"><div class="big">~35%/yr</div><div class="lab">long-haul demand growth to 2030</div><div class="sub">Zayo Bandwidth Report</div></div>
+      <div class="kpi y"><div class="big">91%</div><div class="lab">of metro dark-fiber buys: hyperscalers + carriers</div><div class="sub">enterprise is no longer the customer</div></div>
+    </div>
+
+    <div class="grid">
+
+      <!-- LH1. Owners -->
+      <div class="card">
+        <h3>Who owns the backbone <span class="badge analyst">Analyst</span></h3>
+        <p class="desc">US fiber <em>route</em> miles by network owner. The carriers (muted) are mostly metro/access; the highlighted four are the long-haul / data-center-interconnect players AI is buying from.</p>
+        <div class="chart-box tall"><canvas id="chart-owners"></canvas></div>
+        <p class="note">Route-miles &ne; fiber-miles (one route carries hundreds of strands). Microsoft's figure mixes owned/leased/subsea.</p>
+        <div class="src">Lumen / Zayo / Cogent IR + SEC; Fierce Network</div>
+      </div>
+
+      <!-- LH2. The revival -->
+      <div class="card">
+        <h3>The money floods back in <span class="badge primary">Primary</span></h3>
+        <p class="desc">Lumen's Private Connectivity Fabric bookings &mdash; from a $5B launch (Microsoft anchor) to a ~$10B backlog spanning Microsoft, Meta, AWS and Google. Zayo has committed ~$4B more.</p>
+        <div class="chart-box tall"><canvas id="chart-bookings"></canvas></div>
+        <p class="note">Bookings/backlog, not recognized revenue. Microsoft's individual deal value was never disclosed; $5B was Lumen's total Aug-2024 AI bookings.</p>
+        <div class="src">Lumen IR; Light Reading; Zayo newsroom</div>
+      </div>
+
+      <!-- LH3. Constraint timeline -->
+      <div class="card wide">
+        <h3>Built once, then a decade of nothing <span class="badge modeled">Modeled</span></h3>
+        <p class="desc">New intercity construction intensity. The dot-com boom over-built the backbone; ~90% sat dark; almost nothing new went in for ~10 years. AI is the first demand shock big enough to restart it &mdash; and the new routes are <em>point-to-point between campuses</em>, not the old hub-and-spoke, so the existing glass doesn't serve them.</p>
+        <div class="chart-box"><canvas id="chart-era"></canvas></div>
+        <p class="note">Illustrative relative index, shape only &mdash; no clean public year-by-year route-mile series exists (TeleGeography's is paywalled). Era boundaries and magnitudes are grounded in the cited sources.</p>
+        <div class="src">dot-com totals: widely-cited estimates; revival: Lumen/Zayo IR; "not enough fiber in the ground": Data Center Frontier</div>
+      </div>
+
+      <!-- LH4. Buyers -->
+      <div class="card">
+        <h3>Hyperscalers are the new buyers <span class="badge primary">Primary</span></h3>
+        <p class="desc">Year-over-year growth in transport demand by segment (2023&rarr;2024). Hyperscalers + carriers are now <strong>91%</strong> of metro dark-fiber purchases and <strong>67%</strong> of &gt;1&nbsp;TB wavelength deals &mdash; enterprise has been displaced.</p>
+        <div class="chart-box"><canvas id="chart-buyers"></canvas></div>
+        <div class="src">Zayo Bandwidth Report (2020&ndash;2024)</div>
+      </div>
+
+      <!-- LH5. Why AI needs it (concept) -->
+      <div class="card">
+        <h3>Why AI needs DC-to-DC fiber <span class="badge analyst">Analyst</span></h3>
+        <p class="desc">A single training run no longer fits in one campus &mdash; multi-GW clusters exceed any one site's power. So they <em>federate</em> across campuses linked by dedicated long-haul. Microsoft's "AI WAN" ties Wisconsin &harr; Atlanta; it laid ~120k miles of dedicated fiber in a year.</p>
+        <svg viewBox="0 0 420 230" width="100%" role="img" aria-label="Two AI data-center campuses federated across long-haul fiber">
+          <defs>
+            <linearGradient id="lhpipe" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#1D9E75"/><stop offset="1" stop-color="#58a6ff"/>
+            </linearGradient>
+          </defs>
+          <!-- pipe -->
+          <line x1="118" y1="115" x2="302" y2="115" stroke="url(#lhpipe)" stroke-width="6" stroke-linecap="round"/>
+          <line id="lh-flow" x1="118" y1="115" x2="302" y2="115" stroke="#e3b341" stroke-width="2.5" stroke-dasharray="6 14" stroke-linecap="round"/>
+          <text x="210" y="103" font-size="11" fill="var(--ink2)" text-anchor="middle">dedicated long-haul</text>
+          <text x="210" y="135" font-size="10" fill="var(--ink3)" text-anchor="middle">800G&ndash;1.6T waves &middot; &lt;50 ms RTT budget</text>
+          <!-- campuses -->
+          <g>
+            <rect x="40" y="78" width="78" height="74" rx="10" fill="var(--card2)" stroke="var(--green)" stroke-width="1.5"/>
+            <text x="79" y="104" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">Campus A</text>
+            <text x="79" y="120" font-size="10" fill="var(--ink2)" text-anchor="middle">Wisconsin</text>
+            <text x="79" y="136" font-size="10" fill="var(--ink3)" text-anchor="middle">~GWs of GPUs</text>
+          </g>
+          <g>
+            <rect x="302" y="78" width="78" height="74" rx="10" fill="var(--card2)" stroke="var(--blue)" stroke-width="1.5"/>
+            <text x="341" y="104" font-size="12" font-weight="700" fill="var(--ink)" text-anchor="middle">Campus B</text>
+            <text x="341" y="120" font-size="10" fill="var(--ink2)" text-anchor="middle">Atlanta</text>
+            <text x="341" y="136" font-size="10" fill="var(--ink3)" text-anchor="middle">~GWs of GPUs</text>
+          </g>
+          <text x="210" y="184" font-size="11.5" fill="var(--ink2)" text-anchor="middle">one training run, split across both &mdash; power caps the campus, fiber unites them</text>
+          <text x="210" y="205" font-size="10.5" fill="var(--ink3)" text-anchor="middle">remote, power-rich sites also need long-haul backhaul to reach the network</text>
+        </svg>
+        <div class="src">Microsoft (AI WAN / Fairwater); SemiAnalysis (modeled bandwidth)</div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- CAVEATS -->
   <section class="caveats">
     <h3>Honest caveats &mdash; what keeps this defensible</h3>
@@ -299,6 +396,22 @@ const TAIL = [ // modeled share of the remaining unserved gap, by year
   {year:2024,fiber:38,fwa:24,sat:26,none:12},
   {year:2026,fiber:46,fwa:23,sat:29,none:2}
 ];
+
+// long-haul seed (fallback if data/longhaul.json is missing)
+const LH = {
+  owners:[
+    {name:'AT&T',miles:800000,focus:'carrier'},{name:'Verizon',miles:800000,focus:'carrier'},
+    {name:'Microsoft (private)',miles:500000,focus:'hyperscaler'},{name:'Lumen',miles:340000,focus:'longhaul'},
+    {name:'Uniti + Windstream',miles:240000,focus:'longhaul'},{name:'Zayo',miles:224000,focus:'longhaul'},
+    {name:'Cogent',miles:93000,focus:'longhaul'}
+  ],
+  bookings:[{t:'Aug 2024',lumen:5.0},{t:'2025',lumen:8.5},{t:'Q3 2025',lumen:10.0}],
+  zayo_committed_b:4.0,
+  era:[{y:1996,v:18},{y:1998,v:65},{y:2000,v:100},{y:2001,v:82},{y:2002,v:22},{y:2004,v:7},
+    {y:2008,v:5},{y:2012,v:6},{y:2016,v:9},{y:2020,v:13},{y:2023,v:30},{y:2025,v:58},{y:2027,v:80}],
+  buyers:[{seg:'Metro dark fiber',yoy:268},{seg:'Software/tech wavelength',yoy:450},{seg:'Long-haul dark fiber',yoy:52.6}]
+};
+const FOCUS_COL = {carrier:'#5a6673',hyperscaler:'#8b97a3',longhaul:'#58a6ff'};
 
 const _charts = {};
 function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
@@ -399,9 +512,85 @@ function buildAdopt(){
   document.getElementById('src-adopt').innerHTML = 'Source: ' + (DATA.broadband.source||'ACS B28002');
 }
 
+// ---- long-haul charts ----
+function buildOwners(){
+  const o = ((DATA.longhaul&&DATA.longhaul.owners) || LH.owners).slice().sort((a,b)=>b.miles-a.miles);
+  const cc = chartColors();
+  _charts.owners = new Chart(document.getElementById('chart-owners'), {
+    type:'bar',
+    data:{ labels:o.map(x=>x.name),
+      datasets:[{label:'Route miles',data:o.map(x=>x.miles),
+        backgroundColor:o.map(x=>FOCUS_COL[x.focus]||'#58a6ff'),borderRadius:3}] },
+    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false},
+        tooltip:{callbacks:{label:c=>(c.parsed.x/1000)+'k route miles'+((o[c.dataIndex].note)?' · '+o[c.dataIndex].note:'')}} },
+      scales:{ x:{ticks:{color:cc.ink2,callback:v=>(v/1000)+'k'},grid:{color:cc.grid}},
+        y:{ticks:{color:cc.ink},grid:{display:false}} } }
+  });
+}
+
+function buildBookings(){
+  const lh = DATA.longhaul || LH;
+  const b = lh.bookings || LH.bookings;
+  const zayo = lh.zayo_committed_b || LH.zayo_committed_b;
+  const cc = chartColors();
+  _charts.bookings = new Chart(document.getElementById('chart-bookings'), {
+    type:'bar',
+    data:{ labels:b.map(x=>x.t),
+      datasets:[
+        {type:'bar',label:'Lumen PCF bookings / backlog ($B)',data:b.map(x=>x.lumen),
+         backgroundColor:'#58a6ff',borderRadius:4,order:2},
+        {type:'line',label:'Zayo committed to AI long-haul ($B)',data:b.map(()=>zayo),
+         borderColor:'#e3b341',borderDash:[5,4],pointRadius:0,borderWidth:1.5,order:1}
+      ] },
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{position:'bottom',labels:{color:cc.ink2,boxWidth:12,padding:10,font:{size:10}}},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.parsed.y+'B'}} },
+      scales:{ y:{title:{display:true,text:'$ billions',color:cc.ink2},ticks:{color:cc.ink2,callback:v=>'$'+v+'B'},grid:{color:cc.grid}},
+        x:{ticks:{color:cc.ink2},grid:{display:false}} } }
+  });
+}
+
+function buildEra(){
+  const e = (DATA.longhaul&&DATA.longhaul.era) || LH.era;
+  const cc = chartColors();
+  // color points by era band
+  const band = y => y<=2001 ? '#58a6ff' : (y<=2012 ? '#5a6673' : '#1D9E75');
+  _charts.era = new Chart(document.getElementById('chart-era'), {
+    type:'line',
+    data:{ labels:e.map(x=>x.y),
+      datasets:[{label:'New intercity construction (relative index)',data:e.map(x=>x.v),
+        borderColor:'#58a6ff',backgroundColor:'rgba(88,166,255,.12)',fill:true,tension:.35,
+        pointRadius:4,pointBackgroundColor:e.map(x=>band(x.y)),pointBorderColor:e.map(x=>band(x.y)),borderWidth:2.5}] },
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false},
+        tooltip:{callbacks:{title:c=>c[0].label,
+          label:c=>{const y=+c.label;const era=y<=2001?'dot-com boom':(y<=2012?'the drought':'AI revival');return era+' · index '+c.parsed.y;}}} },
+      scales:{ y:{title:{display:true,text:'build intensity (illustrative)',color:cc.ink2},ticks:{color:cc.ink2},grid:{color:cc.grid},suggestedMax:110},
+        x:{ticks:{color:cc.ink2},grid:{display:false}} } }
+  });
+}
+
+function buildBuyers(){
+  const b = (DATA.longhaul&&DATA.longhaul.buyers) || LH.buyers;
+  const cc = chartColors();
+  _charts.buyers = new Chart(document.getElementById('chart-buyers'), {
+    type:'bar',
+    data:{ labels:b.map(x=>x.seg),
+      datasets:[{label:'YoY growth 2023→2024',data:b.map(x=>x.yoy),
+        backgroundColor:['#58a6ff','#1D9E75','#e3b341'],borderRadius:4}] },
+    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false},
+        tooltip:{callbacks:{label:c=>'+'+c.parsed.x+'% YoY'}} },
+      scales:{ x:{title:{display:true,text:'% growth YoY',color:cc.ink2},ticks:{color:cc.ink2,callback:v=>'+'+v+'%'},grid:{color:cc.grid}},
+        y:{ticks:{color:cc.ink},grid:{display:false}} } }
+  });
+}
+
 function buildAllCharts(){
   Object.values(_charts).forEach(c=>{ try{c.destroy();}catch(e){} });
   buildBead(); buildStarlink(); buildPerf(); buildTail(); buildAdopt();
+  buildOwners(); buildBookings(); buildEra(); buildBuyers();
 }
 
 // ---- MAP (D3 + us-atlas states) ----
@@ -444,7 +633,7 @@ async function buildMap(){
 
 // ---- hydrate ----
 async function hydrate(){
-  const feeds = ['broadband','bead','satellite'];
+  const feeds = ['broadband','bead','satellite','longhaul'];
   await Promise.all(feeds.map(async f=>{
     try { const r = await fetch('data/'+f+'.json',{cache:'no-store'}); if(r.ok) DATA[f]=await r.json(); }
     catch(e){ console.warn('feed missing:', f, e); }
@@ -468,6 +657,11 @@ function toggleTheme(){
 // ---- hero line draw-in animation ----
 function animateHero(){
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // animate the AI-WAN flow dashes
+  var flow = document.getElementById('lh-flow');
+  if(flow){ flow.style.strokeDashoffset = 0; flow.animate(
+    [{strokeDashoffset:40},{strokeDashoffset:0}],
+    {duration:900,iterations:Infinity,easing:'linear'}); }
   ['fiber-line','sat-line'].forEach((id,i)=>{
     const el = document.getElementById(id);
     if(!el) return;

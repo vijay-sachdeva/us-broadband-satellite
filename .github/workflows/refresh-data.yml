@@ -23,6 +23,7 @@ jobs:
           cd scripts
           python build_bead.py
           python build_satellite.py
+          python build_longhaul.py
           python fetch_broadband_adoption.py
       - name: Validate JSON
         run: python -c "import json,glob;[json.load(open(f)) for f in glob.glob('data/*.json')];print('ok')"

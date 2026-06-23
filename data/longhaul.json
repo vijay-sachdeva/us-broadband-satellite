@@ -1,0 +1,154 @@
+{
+  "lastUpdated": "2026-06-23T05:02:26.991700+00:00",
+  "tier": "analyst",
+  "source": "Lumen/Zayo/Cogent/Crown Castle IR+SEC; Zayo Bandwidth Report; TeleGeography/SemiAnalysis",
+  "ai_deals_total_b": 13,
+  "dotcom_dark_pct": 90,
+  "longhaul_demand_cagr_pct": 35,
+  "owners": [
+    {
+      "name": "AT&T",
+      "miles": 800000,
+      "focus": "carrier",
+      "note": "mostly metro/access",
+      "tier": "analyst"
+    },
+    {
+      "name": "Verizon",
+      "miles": 800000,
+      "focus": "carrier",
+      "note": "mostly metro/access",
+      "tier": "analyst"
+    },
+    {
+      "name": "Lumen",
+      "miles": 340000,
+      "focus": "longhaul",
+      "note": ">100k mi 400G intercity; Level 3/CenturyLink legacy",
+      "tier": "primary"
+    },
+    {
+      "name": "Uniti + Windstream",
+      "miles": 240000,
+      "focus": "longhaul",
+      "note": "merged Aug 2025",
+      "tier": "primary"
+    },
+    {
+      "name": "Zayo",
+      "miles": 224000,
+      "focus": "longhaul",
+      "note": "post Crown Castle fiber close (2026)",
+      "tier": "primary"
+    },
+    {
+      "name": "Cogent",
+      "miles": 93000,
+      "focus": "longhaul",
+      "note": "+18,905 intercity route mi from Sprint backbone (2023)",
+      "tier": "primary"
+    },
+    {
+      "name": "Microsoft (private)",
+      "miles": 500000,
+      "focus": "hyperscaler",
+      "note": "owned+leased+subsea, mixed unit",
+      "tier": "analyst"
+    }
+  ],
+  "bookings": [
+    {
+      "t": "Aug 2024",
+      "lumen": 5.0,
+      "label": "Lumen PCF launch: $5B AI bookings (Microsoft anchor)"
+    },
+    {
+      "t": "2025",
+      "lumen": 8.5,
+      "label": "$8.5B across Microsoft, Meta, AWS, Google"
+    },
+    {
+      "t": "Q3 2025",
+      "lumen": 10.0,
+      "label": "~$10B PCF backlog"
+    }
+  ],
+  "zayo_committed_b": 4.0,
+  "era": [
+    {
+      "y": 1996,
+      "v": 18
+    },
+    {
+      "y": 1998,
+      "v": 65
+    },
+    {
+      "y": 2000,
+      "v": 100
+    },
+    {
+      "y": 2001,
+      "v": 82
+    },
+    {
+      "y": 2002,
+      "v": 22
+    },
+    {
+      "y": 2004,
+      "v": 7
+    },
+    {
+      "y": 2008,
+      "v": 5
+    },
+    {
+      "y": 2012,
+      "v": 6
+    },
+    {
+      "y": 2016,
+      "v": 9
+    },
+    {
+      "y": 2020,
+      "v": 13
+    },
+    {
+      "y": 2023,
+      "v": 30
+    },
+    {
+      "y": 2025,
+      "v": 58
+    },
+    {
+      "y": 2027,
+      "v": 80
+    }
+  ],
+  "buyers": [
+    {
+      "seg": "Metro dark fiber",
+      "yoy": 268,
+      "tier": "primary"
+    },
+    {
+      "seg": "Software/tech wavelength capacity",
+      "yoy": 450,
+      "tier": "primary"
+    },
+    {
+      "seg": "Long-haul dark fiber",
+      "yoy": 52.6,
+      "tier": "primary"
+    }
+  ],
+  "concentration": {
+    "metro_dark_fiber_hyperscaler_carrier_pct": 91.2,
+    "wavelength_over_1tb_hyperscaler_carrier_pct": 66.8,
+    "tier": "primary",
+    "source": "Zayo Bandwidth Report (2020-2024)"
+  }
+}
